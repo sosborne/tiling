@@ -522,12 +522,12 @@ def sparse_power(sparse_matrix,N):
         print str(q+1)+"\t"+str(M[0])
 
 
-def show_tilings(n):
-    print 'Working on height ' + str(n)
+def show_tilings(k):
+    print 'Working on height ' + str(k)
     base_grid=[]
-    for i in range(0,n):
+    for i in range(0,k):
         base_grid.append([0,0,0,0,0,0])
-    base_crossing=tuple([0]*n)
+    base_crossing=tuple([0]*k)
     global CROSSINGS
     CROSSINGS={}
     build_crossings(base_grid,0,[],[0])
@@ -537,6 +537,7 @@ def show_tilings(n):
     for crossing in CROSSINGS:
         reordered_crossings[CROSSINGS[crossing][0]]=[crossing,CROSSINGS[crossing][1]]
     
+    global NEIGHBORS
     NEIGHBORS={}
     NEIGHBORS[0]=[]
     for crossing in CROSSINGS:
