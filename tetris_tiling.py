@@ -330,6 +330,9 @@ amnesia = [
            piece[28]
            ]
 
+CROSSINGS={}
+NEIGHBORS={}
+
 def piece_to_grid(piece,pointer,n):
     new_piece=copy(piece)
     new_piece.reverse()
@@ -457,7 +460,7 @@ def fill_mate(original_crossing,mate_so_far,grid,neighbors):
             new_mate_so_far = copy(mate_so_far)
             a_piece=copy(amnesia[i][0])
             extension=copy(amnesia[i][1])
-            grid_piece = piece_to_grid(a_piece,pointer,n)
+            grid_piece = piece_to_grid(a_piece,pointer,len(grid))
             if grid_piece != 'Problem':
                 combined_grid = try_pair(grid_piece,new_grid)
                 if combined_grid != 'Problem':
@@ -531,7 +534,6 @@ def show_tilings(k):
         base_grid.append([0,0,0,0,0,0])
     base_crossing=tuple([0]*k)
     global CROSSINGS
-    CROSSINGS={}
     build_crossings(base_grid,0,[],[0])
     
     print 'Number of crossings: ' + str(len(CROSSINGS.keys()))
@@ -540,7 +542,6 @@ def show_tilings(k):
         reordered_crossings[CROSSINGS[crossing][0]]=[crossing,CROSSINGS[crossing][1]]
     
     global NEIGHBORS
-    NEIGHBORS={}
     NEIGHBORS[0]=[]
     for crossing in CROSSINGS:
         n = len(crossing)
