@@ -1,3 +1,5 @@
+import copy
+
 four = [1,4,23,117,454,2003,9157,40899,179399,796558]
 
 piece={}
@@ -334,7 +336,7 @@ CROSSINGS={}
 NEIGHBORS={}
 
 def piece_to_grid(piece,pointer,n):
-    new_piece=copy(piece)
+    new_piece=copy.deepcopy(piece)
     new_piece.reverse()
     grid = []
     if pointer<2:
@@ -404,15 +406,15 @@ def build_crossings(grid,pointer,keeping_track,counter):
                 counter[0]+=1
     
     else:
-        new_grid = copy(grid)
-        new_keeping_track = copy(keeping_track)
+        new_grid = copy.deepcopy(grid)
+        new_keeping_track = copy.deepcopy(keeping_track)
         new_keeping_track.append(0)
         build_crossings(new_grid,pointer+1,new_keeping_track,counter)
         for i in range(1,29):
-            new_grid = copy(grid)
-            new_keeping_track = copy(keeping_track)
-            a_piece=copy(piece[i][0])
-            extension=copy(piece[i][1])
+            new_grid = copy.deepcopy(grid)
+            new_keeping_track = copy.deepcopy(keeping_track)
+            a_piece=copy.deepcopy(piece[i][0])
+            extension=copy.deepcopy(piece[i][1])
             grid_piece = piece_to_grid(a_piece,pointer,n)
             if grid_piece != 'Problem':
                 combined_grid = try_pair(grid_piece,new_grid)
@@ -450,16 +452,16 @@ def fill_mate(original_crossing,mate_so_far,grid,neighbors):
                 neighbors.append(CROSSINGS[mate_so_far][0])
     else:
         pointer = mate_so_far.index(-1)
-        new_grid = copy(grid)
-        new_mate_so_far = copy(mate_so_far)
+        new_grid = copy.deepcopy(grid)
+        new_mate_so_far = copy.deepcopy(mate_so_far)
         new_mate_so_far[pointer]=0
         fill_mate(original_crossing,new_mate_so_far,new_grid,neighbors)
         
         for i in range(0,18):
-            new_grid = copy(grid)
-            new_mate_so_far = copy(mate_so_far)
-            a_piece=copy(amnesia[i][0])
-            extension=copy(amnesia[i][1])
+            new_grid = copy.deepcopy(grid)
+            new_mate_so_far = copy.deepcopy(mate_so_far)
+            a_piece=copy.deepcopy(amnesia[i][0])
+            extension=copy.deepcopy(amnesia[i][1])
             grid_piece = piece_to_grid(a_piece,pointer,len(grid))
             if grid_piece != 'Problem':
                 combined_grid = try_pair(grid_piece,new_grid)
@@ -526,7 +528,6 @@ def sparse_power(sparse_matrix,N):
         M=new_M
         print str(q+1)+"\t"+str(M[0])
 
-
 def show_tilings(k):
     print 'Working on height ' + str(k)
     base_grid=[]
@@ -558,7 +559,6 @@ def show_tilings(k):
             if right_zero:
                 NEIGHBORS[crossing_index].append(0)
     
-    
     (left_zero,right_zero) = zero_neighbor(base_grid)
     if left_zero:
         NEIGHBORS[0].append(0)
@@ -566,3 +566,6 @@ def show_tilings(k):
     print 'length \t tilings'
     M = construct_sparse_matrix(reordered_crossings,NEIGHBORS)
     sparse_power(M,10)
+
+for i in [2,4,6]:
+    show_tilings(i)
